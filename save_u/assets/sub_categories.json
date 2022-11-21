@@ -1,0 +1,11 @@
+{
+    "items":
+    [
+    {"id": 1, "name": "지진/해일", "categoryId": 1},
+    {"id": 2, "name": "태풍/침수/홍수/낙뢰/호우", "categoryId": 1},
+    {"id": 3, "name": "산불/화재", "categoryId": 1},
+    {"id": 4, "name": "가뭄/폭염", "categoryId": 1},
+    {"id": 5, "name": "한파/폭설", "categoryId": 1},
+    {"id": 6, "name": "황사/미세먼지", "categoryId": 1}
+  ]
+}

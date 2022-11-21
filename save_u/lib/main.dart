@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:save_u/pages/sub_categories_page.dart';
-import 'package:save_u/sevices/db_helper.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

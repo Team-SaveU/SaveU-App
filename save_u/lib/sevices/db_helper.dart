@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:flutter/services.dart';
 import 'package:path/path.dart';
 import 'package:save_u/models/sub_category.dart';
 import 'package:sqflite/sqflite.dart';
@@ -6,15 +9,6 @@ import 'package:save_u/models/safe_info.dart';
 class DBHelper {
   static const int _version = 1;
   static const String _dbName = "SaveU.db";
-
-  static var sub_categories = [
-    {"id": 1, "name": "지진/해일", "categoryId": 1},
-    {"id": 2, "name": "태풍/침수/홍수/낙뢰/호우", "categoryId": 1},
-    {"id": 3, "name": "산불/화재", "categoryId": 1},
-    {"id": 4, "name": "가뭄/폭염", "categoryId": 1},
-    {"id": 5, "name": "한파/폭설", "categoryId": 1},
-    {"id": 6, "name": "황사/미세먼지", "categoryId": 1},
-  ];
 
   static Future<Database> _getDatabase() async {
     return openDatabase(join(await getDatabasesPath(), _dbName),
@@ -27,15 +21,32 @@ class DBHelper {
     await db.execute(
         "CREATE TABLE SubCategory(id INTEGER PRIMARY KEY, name TEXT NOT NULL, categoryId INT NOT NULL);");
     await db.execute(
-        "CREATE TABLE SafeInfo(id INTEGER PRIMARY KEY, title TEXT NOT NULL, content TEXT NOT NULL, scrab BOOLEAN NOT NULL, link TEXT NOT NULL, subCategoryId INTEGER NOT NULL);");
-    var categories = [
-      {"id": 1, "name": "자연재해"}
-    ];
-    await db.insert('category', categories[0]);
+        "CREATE TABLE SafeInfo(id INTEGER PRIMARY KEY, title TEXT NOT NULL, content TEXT NOT NULL, scrab BOOLEAN NOT NULL, link TEXT, subCategoryId INTEGER NOT NULL);");
+
+    final String response =
+        await rootBundle.loadString('assets/categories.json');
+    final data = await json.decode(response);
+    var categories = data["items"];
+
+    final String response2 =
+        await rootBundle.loadString('assets/sub_categories.json');
+    final data2 = await json.decode(response2);
+    var subCategories = data2["items"];
+
+    final String response3 =
+        await rootBundle.loadString('data/safe_infos.json');
+    final data3 = await json.decode(response3);
+    var safeInfos = data3["items"];
 
     var batch = db.batch();
-    for (int i = 0; i < sub_categories.length; i++) {
-      batch.insert('SubCategory', sub_categories[i]);
+    for (int i = 0; i < categories.length; i++) {
+      batch.insert('category', categories[i]);
+    }
+    for (int i = 0; i < subCategories.length; i++) {
+      batch.insert('SubCategory', subCategories[i]);
+    }
+    for (int i = 0; i < safeInfos.length; i++) {
+      batch.insert('SafeInfo', safeInfos[i]);
     }
     await batch.commit(noResult: true);
   }
