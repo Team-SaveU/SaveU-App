@@ -152,6 +152,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  // _HomePageState({required userEmail});
+  // final String _userEmail = '';
   // @override
   // const HomePage({super.key});
 
@@ -160,40 +162,39 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: IndexedStack(
-          index: _selectedIndex,
-          children: [
-            MainPage(),
-            SubCategoriesPage(userEmail: widget.userEmail),
-            CategoryPage()
-          ],
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          currentIndex: _selectedIndex, //첫번째부터 0, 3까지
-          onTap: (value) {
-            setState(() {
-              _selectedIndex = value; //클릭하면 value값이 할당되며 rebuild됨
-            });
-          },
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: '홈',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.chat_bubble),
-              label: 'Q&A',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.add_location_sharp),
-              label: '세이프맵',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.people),
-              label: '마이페이지',
-            ),
-          ],
-        ));
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: [
+          MainPage(),
+        ], //children
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        currentIndex: _selectedIndex, //첫번째부터 0, 3까지
+        onTap: (value) {
+          setState(() {
+            _selectedIndex = value; //클릭하면 value값이 할당되며 rebuild됨
+          });
+        },
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: '홈',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.chat_bubble),
+            label: 'Q&A',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.add_location_sharp),
+            label: '세이프맵',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.people),
+            label: '마이페이지',
+          ),
+        ],
+      ),
+    );
   }
 }
