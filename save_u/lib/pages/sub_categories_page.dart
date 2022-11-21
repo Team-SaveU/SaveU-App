@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:save_u/models/sub_category.dart';
 import 'package:save_u/sevices/db_helper.dart';
-import 'safe_infos_page.dart';
 
 class SubCategoriesPage extends StatefulWidget {
-  const SubCategoriesPage({super.key});
+  const SubCategoriesPage({required this.userEmail, super.key});
+
+  final String userEmail;
 
   @override
   State<SubCategoriesPage> createState() => _SubCategoriesPageState();
@@ -16,7 +17,7 @@ class _SubCategoriesPageState extends State<SubCategoriesPage> {
     return Scaffold(
         backgroundColor: Colors.grey[200],
         appBar: AppBar(
-          title: const Text('Sub Categories'),
+          title: Text("세부 카테고리 정보 - ${widget.userEmail}님"),
           centerTitle: true,
         ),
         floatingActionButton: FloatingActionButton(
