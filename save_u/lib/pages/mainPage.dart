@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'categoryPage.dart';
 
 class MainPage extends StatelessWidget {
+  // const MainPage({required this.userEmail, super.key});
+  // final String userEmail;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
+        body: SingleChildScrollView(
             padding: EdgeInsets.fromLTRB(20, 50, 20, 0),
             child: Column(children: [
-              CategoryPage(),
+              //CategoryPage(),
               Container(
                   margin: EdgeInsets.only(right: 250),
                   padding: EdgeInsets.only(bottom: 10),
@@ -76,13 +78,14 @@ class MainPage extends StatelessWidget {
                       // width: 120,
 
                       child: IconButton(
-                        icon: Image.asset('icons/CircleIcon1.png'),
+                        icon: Image.asset('assets/icons/CircleIcon1.png'),
                         iconSize: 100,
                         onPressed: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => CategoryPage()),
+                              builder: (context) => CategoryPage(),
+                            ),
                           );
                         },
                       ),
@@ -90,17 +93,31 @@ class MainPage extends StatelessWidget {
                     Container(
                       // width: 120,
                       child: IconButton(
-                        icon: Image.asset('icons/CircleIcon2.png'),
+                        icon: Image.asset('assets/icons/CircleIcon2.png'),
                         iconSize: 100,
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CategoryPage(),
+                            ),
+                          );
+                        },
                       ),
                     ),
                     Container(
                       // width: 120,
                       child: IconButton(
-                        icon: Image.asset('icons/CircleIcon3.png'),
+                        icon: Image.asset('assets/icons/CircleIcon3.png'),
                         iconSize: 100,
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CategoryPage(),
+                            ),
+                          );
+                        },
                       ),
                     ),
                   ],
@@ -127,23 +144,44 @@ class MainPage extends StatelessWidget {
                   children: [
                     Container(
                       child: IconButton(
-                        icon: Image.asset('icons/CircleIcon4.png'),
+                        icon: Image.asset('assets/icons/CircleIcon4.png'),
                         iconSize: 100,
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CategoryPage(),
+                            ),
+                          );
+                        },
                       ),
                     ),
                     Container(
                       child: IconButton(
-                        icon: Image.asset('icons/CircleIcon5.png'),
+                        icon: Image.asset('assets/icons/CircleIcon5.png'),
                         iconSize: 100,
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CategoryPage(),
+                            ),
+                          );
+                        },
                       ),
                     ),
                     Container(
                       child: IconButton(
-                        icon: Image.asset('icons/CircleIcon6.png'),
+                        icon: Image.asset('assets/icons/CircleIcon6.png'),
                         iconSize: 100,
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CategoryPage(),
+                            ),
+                          );
+                        },
                       ),
                     ),
                   ],

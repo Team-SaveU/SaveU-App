@@ -69,6 +69,12 @@ flutter:
   assets:
     - assets/safe_infos.json
     - assets/sub_categories.json
+    - assets/icons/CircleIcon1.png
+    - assets/icons/CircleIcon2.png
+    - assets/icons/CircleIcon3.png
+    - assets/icons/CircleIcon4.png
+    - assets/icons/CircleIcon5.png
+    - assets/icons/CircleIcon6.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
