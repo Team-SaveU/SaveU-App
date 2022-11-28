@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'categoryPage.dart';
+import 'category_page.dart';
 
 class MainPage extends StatelessWidget {
   // const MainPage({required this.userEmail, super.key});

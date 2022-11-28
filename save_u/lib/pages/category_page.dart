@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'sub_categories_page.dart';
-import 'mainPage.dart';
+import 'main_page.dart';
 
 class CategoryPage extends StatelessWidget {
   // const CategoryPage({required this.userEmail, super.key});
