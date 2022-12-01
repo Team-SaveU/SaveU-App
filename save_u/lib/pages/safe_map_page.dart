@@ -1,7 +1,9 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
 
 class SafeMapPage extends StatefulWidget {
   const SafeMapPage({super.key});
@@ -11,51 +13,78 @@ class SafeMapPage extends StatefulWidget {
 }
 
 class _SafeMapPageState extends State<SafeMapPage> {
-  // 애플리케이션에서 지도를 이동하기 위한 컨트롤러
-  late GoogleMapController _controller;
+  Completer<GoogleMapController> _controller = Completer();
+  //Completer() => Future<> 반환
 
-  // 이 값은 지도가 시작될 때 첫 번째 위치입니다.
-  final CameraPosition _initialPosition =
-      CameraPosition(target: LatLng(41.017901, 28.847953));
+  Set<Marker> _markers = Set();
+  Set<Marker> _markers1 = Set(); //지진 해일 대피소
+  @override
+  void initState() {
+    super.initState();
+    _markers.add(Marker(
+      markerId: MarkerId('myInitialPosition'),
+      position: LatLng(37.589667551557, 127.019849627),
+      infoWindow: InfoWindow(title: 'My Position', snippet: 'where am I?'),
+    ));
+    _markers1.add(Marker(
+      markerId: MarkerId('Korea Univ.'),
+      position: LatLng(37.588556165888, 127.01998189277),
+      infoWindow: InfoWindow(title: 'Korea Univ.', snippet: '고려대'),
+    ));
+  }
 
-  // 지도 클릭 시 표시할 장소에 대한 마커 목록
-  final List<Marker> markers = [];
+  CameraPosition _initialCameraPosition = CameraPosition(
+    target: LatLng(37.589667551557, 127.019849627),
+    zoom: 14,
+  );
 
-  addMarker(cordinate) {
-    int id = Random().nextInt(100);
+  void _onMapCreated(GoogleMapController controller) {
+    _controller.complete(controller); //_controller를 이제 사용할 수 있다.
+  }
 
+  void _changeMarkers() {
     setState(() {
-      markers
-          .add(Marker(position: cordinate, markerId: MarkerId(id.toString())));
+      _markers = _markers1;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: GoogleMap(
-          initialCameraPosition: _initialPosition,
-          mapType: MapType.normal,
-          onMapCreated: (controller) {
-            setState(() {
-              _controller = controller;
-            });
-          },
-          markers: markers.toSet(),
-
-          // 클릭한 위치가 중앙에 표시
-          onTap: (cordinate) {
-            _controller.animateCamera(CameraUpdate.newLatLng(cordinate));
-            addMarker(cordinate);
-          },
-        ),
-
-        // floatingActionButton 클릭시 줌 아웃
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            _controller.animateCamera(CameraUpdate.zoomOut());
-          },
-          child: Icon(Icons.zoom_out),
-        ));
+      body: Stack(
+        children: <Widget>[
+          GoogleMap(
+            mapType: MapType.normal,
+            initialCameraPosition: _initialCameraPosition,
+            onMapCreated: _onMapCreated,
+            myLocationEnabled: true,
+            myLocationButtonEnabled: true,
+            markers: _markers,
+          ),
+          Container(
+              margin: EdgeInsets.only(top: 7, right: 7, left: 7),
+              alignment: Alignment.topRight,
+              child: Row(
+                children: <Widget>[
+                  FloatingActionButton.extended(
+                    onPressed: _changeMarkers,
+                    label: Text("지진해일대피장소"),
+                    icon: Icon(Icons.map),
+                    elevation: 8,
+                    backgroundColor: Colors.blue[400],
+                  ),
+                  SizedBox(width: 5),
+                  FloatingActionButton.extended(
+                    onPressed: _changeMarkers,
+                    label: Text("AED"),
+                    icon: Icon(Icons.map),
+                    elevation: 8,
+                    backgroundColor: Colors.green[400],
+                  ),
+                ],
+              ))
+        ],
+      ),
+    );
   }
 }
