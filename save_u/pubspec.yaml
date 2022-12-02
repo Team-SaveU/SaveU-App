@@ -47,6 +47,8 @@ dependencies:
   json_serializable: ^6.5.4
   location: ^4.4.0
   geolocator: ^9.0.2
+  intl: ^0.17.0
+  uuid: ^3.0.7
 
 dev_dependencies:
   flutter_test:
