@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 
 import '../main.dart';
 import '../sevices/auth_service.dart';
-import 'my_page.dart';
 
 /// 로그인 페이지
 class LoginPage extends StatefulWidget {
