@@ -14,13 +14,12 @@ class QuestionService extends ChangeNotifier {
   void create(String title, String content, String uid) async {
     //uuid 생성
     var uuid = Uuid();
-    uuid.v1();
 
     //현재 날짜 받아오기
-    var now = new DateTime.now(); //반드시 다른 함수에서 해야함, Mypage같은 클래스에서는 사용 불가능
+    var now = DateTime.now();
     String formatDate = DateFormat('yy-MM-dd HH:mm:ss').format(now);
 
-    await questionCollection.doc(uuid.toString()).set({
+    await questionCollection.doc(uuid.v1()).set({
       'uid': uid, // 유저 식별자
       'title': title, // 제목
       'content': content, // 내용
@@ -28,11 +27,15 @@ class QuestionService extends ChangeNotifier {
     });
   }
 
-  void update(String docId, String content) async {
-    // questionContent 업데이트
+  void update(String docId, String title, String content) async {
+    await questionCollection
+        .doc(docId)
+        .update({'title': title, 'content': content});
+    notifyListeners();
   }
 
   void delete(String docId) async {
-    // question 삭제
+    await questionCollection.doc(docId).delete();
+    notifyListeners();
   }
 }
