@@ -69,8 +69,10 @@ class _SafeInfosPageState extends State<SafeInfosPage> {
                       MaterialPageRoute(
                           builder: (context) => SafeInfoDetailPage(
                                 safeInfo: _safeInfoList[index],
-                              )));
-                  getSafeInfosBySubCategoryId();
+                              ))).then((value) {
+                    getSafeInfosBySubCategoryId();
+                    setState(() {});
+                  });
                 },
                 title: Text(_safeInfoList[index].title ?? ''),
                 trailing: _safeInfoList[index].scrap == 0
