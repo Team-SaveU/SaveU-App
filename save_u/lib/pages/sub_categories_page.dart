@@ -6,7 +6,9 @@ import '../sevices/sub_category_service.dart';
 import 'safe_infos_page.dart';
 
 class SubCategoriesPage extends StatefulWidget {
-  const SubCategoriesPage({super.key});
+  final int categoryId;
+  const SubCategoriesPage({Key? key, required this.categoryId})
+      : super(key: key);
 
   @override
   State<SubCategoriesPage> createState() => _SubCategoriesPageState();
@@ -17,7 +19,8 @@ class _SubCategoriesPageState extends State<SubCategoriesPage> {
   final _subCategoryService = SubCategoryService();
 
   getAllSubCategories() async {
-    var subCategories = await _subCategoryService.readAllSubCategories();
+    var subCategories = await _subCategoryService
+        .readSubCategoriesByCategoryId(widget.categoryId);
     _subCategoryList = <SubCategory>[];
     subCategories.forEach((subCategory) {
       setState(() {
@@ -49,7 +52,7 @@ class _SubCategoriesPageState extends State<SubCategoriesPage> {
         onPressed: () {
           DatabaseConnection.deleteDatabase("SaveU.db");
         },
-        child: const Icon(Icons.add),
+        child: const Icon(CupertinoIcons.trash),
       ),
       body: ListView.builder(
           itemCount: _subCategoryList.length,

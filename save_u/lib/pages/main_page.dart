@@ -84,7 +84,8 @@ class MainPage extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => SubCategoriesPage(),
+                              builder: (context) =>
+                                  SubCategoriesPage(categoryId: 1),
                             ),
                           );
                         },
@@ -99,7 +100,8 @@ class MainPage extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => SubCategoriesPage(),
+                              builder: (context) =>
+                                  SubCategoriesPage(categoryId: 2),
                             ),
                           );
                         },
@@ -114,7 +116,8 @@ class MainPage extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => SubCategoriesPage(),
+                              builder: (context) =>
+                                  SubCategoriesPage(categoryId: 3),
                             ),
                           );
                         },
@@ -150,7 +153,8 @@ class MainPage extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => SubCategoriesPage(),
+                              builder: (context) =>
+                                  SubCategoriesPage(categoryId: 4),
                             ),
                           );
                         },
@@ -164,7 +168,8 @@ class MainPage extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => SubCategoriesPage(),
+                              builder: (context) =>
+                                  SubCategoriesPage(categoryId: 5),
                             ),
                           );
                         },
@@ -178,7 +183,8 @@ class MainPage extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => SubCategoriesPage(),
+                              builder: (context) =>
+                                  SubCategoriesPage(categoryId: 6),
                             ),
                           );
                         },

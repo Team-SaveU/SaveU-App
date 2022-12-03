@@ -2,7 +2,7 @@ class SafeInfo {
   int? id;
   String? title;
   String? content;
-  bool? scrab;
+  int? scrab;
   String? link;
   int? subCategoryId;
 

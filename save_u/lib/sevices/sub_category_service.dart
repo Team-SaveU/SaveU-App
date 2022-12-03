@@ -10,4 +10,10 @@ class SubCategoryService {
   readAllSubCategories() async {
     return await _repository.readData('subCategory');
   }
+
+  //카테고리 아이디로 SubCategory 가져오기
+  readSubCategoriesByCategoryId(int categoryId) async {
+    return await _repository.readDataByColumn(
+        'subCategory', 'categoryId', categoryId);
+  }
 }
