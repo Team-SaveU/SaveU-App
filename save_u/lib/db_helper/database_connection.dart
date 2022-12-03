@@ -22,7 +22,7 @@ class DatabaseConnection {
     String sql_create_sub_category =
         "CREATE TABLE subCategory(id INTEGER PRIMARY KEY, name TEXT NOT NULL, categoryId INT NOT NULL);";
     String sql_create_safe_info =
-        "CREATE TABLE safeInfo(id INTEGER PRIMARY KEY, title TEXT NOT NULL, content TEXT NOT NULL, scrab INTEGER NOT NULL, link TEXT, subCategoryId INTEGER NOT NULL);";
+        "CREATE TABLE safeInfo(id INTEGER PRIMARY KEY, title TEXT NOT NULL, content TEXT NOT NULL, scrap INTEGER NOT NULL, link TEXT, subCategoryId INTEGER NOT NULL);";
 
     /* Table 생성 */
     await database.execute(sql_create_category);

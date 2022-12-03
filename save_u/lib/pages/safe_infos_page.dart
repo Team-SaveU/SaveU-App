@@ -29,7 +29,7 @@ class _SafeInfosPageState extends State<SafeInfosPage> {
         safeInfoModel.id = safeInfo['id'];
         safeInfoModel.title = safeInfo['title'];
         safeInfoModel.content = safeInfo['content'];
-        safeInfoModel.scrab = safeInfo['scrab'];
+        safeInfoModel.scrap = safeInfo['scrap'];
         safeInfoModel.link = safeInfo['link'];
         safeInfoModel.subCategoryId = safeInfo['subCategoryId'];
         _safeInfoList.add(safeInfoModel);
@@ -48,7 +48,7 @@ class _SafeInfosPageState extends State<SafeInfosPage> {
     return Scaffold(
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
-        title: Text("안전 정보 리스트"),
+        title: Text(widget.subCategory.name ?? "안전 정보"),
         centerTitle: true,
       ),
       floatingActionButton: FloatingActionButton(
@@ -63,17 +63,42 @@ class _SafeInfosPageState extends State<SafeInfosPage> {
           itemBuilder: (context, index) {
             return Card(
               child: ListTile(
-                onTap: () {
+                onTap: () async {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => SafeInfoDetailPage(
                                 safeInfo: _safeInfoList[index],
-                              )));
+                              ))).then((value) {
+                    getSafeInfosBySubCategoryId();
+                    setState(() {});
+                  });
                 },
-                leading: const Icon(CupertinoIcons.doc_text_search),
                 title: Text(_safeInfoList[index].title ?? ''),
-                //trailing: const Icon(CupertinoIcons.doc_text_search),
+                trailing: IconButton(
+                  icon: _safeInfoList[index].scrap == 0
+                      ? Icon(CupertinoIcons.bookmark)
+                      : Icon(
+                          CupertinoIcons.bookmark_fill,
+                          color: Colors.yellow,
+                        ),
+                  onPressed: () async {
+                    if (_safeInfoList[index].scrap == 0) {
+                      //스크랩 X인 경우
+                      setState(() {
+                        _safeInfoList[index].scrap = 1;
+                      });
+                    } else if (_safeInfoList[index].scrap == 1) {
+                      //스크랩 한 경우
+                      setState(() {
+                        _safeInfoList[index].scrap = 0;
+                      });
+                    }
+                    await _safeInfoService.updateSafeInfoScrap(
+                        _safeInfoList[index].id ?? 0,
+                        _safeInfoList[index].scrap ?? 0);
+                  },
+                ),
               ),
             );
           }),
