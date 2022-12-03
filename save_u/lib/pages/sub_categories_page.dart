@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:save_u/db_helper/database_connection.dart';
 import 'package:save_u/models/sub_category.dart';
 import '../sevices/sub_category_service.dart';
 import 'safe_infos_page.dart';
@@ -46,13 +45,6 @@ class _SubCategoriesPageState extends State<SubCategoriesPage> {
       appBar: AppBar(
         title: Text("세부 카테고리 정보"),
         centerTitle: true,
-      ),
-      floatingActionButton: FloatingActionButton(
-        heroTag: 'delete DB',
-        onPressed: () {
-          DatabaseConnection.deleteDatabase("SaveU.db");
-        },
-        child: const Icon(CupertinoIcons.trash),
       ),
       body: ListView.builder(
           itemCount: _subCategoryList.length,
