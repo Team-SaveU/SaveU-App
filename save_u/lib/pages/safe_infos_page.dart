@@ -29,7 +29,7 @@ class _SafeInfosPageState extends State<SafeInfosPage> {
         safeInfoModel.id = safeInfo['id'];
         safeInfoModel.title = safeInfo['title'];
         safeInfoModel.content = safeInfo['content'];
-        safeInfoModel.scrab = safeInfo['scrab'];
+        safeInfoModel.scrap = safeInfo['scrap'];
         safeInfoModel.link = safeInfo['link'];
         safeInfoModel.subCategoryId = safeInfo['subCategoryId'];
         _safeInfoList.add(safeInfoModel);
@@ -48,7 +48,7 @@ class _SafeInfosPageState extends State<SafeInfosPage> {
     return Scaffold(
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
-        title: Text("안전 정보 리스트"),
+        title: Text(widget.subCategory.name ?? "안전 정보"),
         centerTitle: true,
       ),
       floatingActionButton: FloatingActionButton(
@@ -63,17 +63,22 @@ class _SafeInfosPageState extends State<SafeInfosPage> {
           itemBuilder: (context, index) {
             return Card(
               child: ListTile(
-                onTap: () {
+                onTap: () async {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => SafeInfoDetailPage(
                                 safeInfo: _safeInfoList[index],
                               )));
+                  getSafeInfosBySubCategoryId();
                 },
-                leading: const Icon(CupertinoIcons.doc_text_search),
                 title: Text(_safeInfoList[index].title ?? ''),
-                //trailing: const Icon(CupertinoIcons.doc_text_search),
+                trailing: _safeInfoList[index].scrap == 0
+                    ? const Icon(CupertinoIcons.bookmark)
+                    : const Icon(
+                        CupertinoIcons.bookmark_fill,
+                        color: Colors.yellow,
+                      ),
               ),
             );
           }),
