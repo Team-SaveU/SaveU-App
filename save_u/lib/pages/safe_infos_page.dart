@@ -75,12 +75,30 @@ class _SafeInfosPageState extends State<SafeInfosPage> {
                   });
                 },
                 title: Text(_safeInfoList[index].title ?? ''),
-                trailing: _safeInfoList[index].scrap == 0
-                    ? const Icon(CupertinoIcons.bookmark)
-                    : const Icon(
-                        CupertinoIcons.bookmark_fill,
-                        color: Colors.yellow,
-                      ),
+                trailing: IconButton(
+                  icon: _safeInfoList[index].scrap == 0
+                      ? Icon(CupertinoIcons.bookmark)
+                      : Icon(
+                          CupertinoIcons.bookmark_fill,
+                          color: Colors.yellow,
+                        ),
+                  onPressed: () async {
+                    if (_safeInfoList[index].scrap == 0) {
+                      //스크랩 X인 경우
+                      setState(() {
+                        _safeInfoList[index].scrap = 1;
+                      });
+                    } else if (_safeInfoList[index].scrap == 1) {
+                      //스크랩 한 경우
+                      setState(() {
+                        _safeInfoList[index].scrap = 0;
+                      });
+                    }
+                    await _safeInfoService.updateSafeInfoScrap(
+                        _safeInfoList[index].id ?? 0,
+                        _safeInfoList[index].scrap ?? 0);
+                  },
+                ),
               ),
             );
           }),

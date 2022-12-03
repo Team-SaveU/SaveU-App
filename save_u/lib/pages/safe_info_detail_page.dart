@@ -33,41 +33,34 @@ class _SafeInfoDetailPageState extends State<SafeInfoDetailPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ListTile(
-                    title: Text(
-                      widget.safeInfo.title ?? '',
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                    ),
-                    trailing: IconButton(
-                      icon: widget.safeInfo.scrap == 0
-                          ? Icon(CupertinoIcons.bookmark)
-                          : Icon(
-                              CupertinoIcons.bookmark_fill,
-                              color: Colors.yellow,
-                            ),
-                      onPressed: () async {
-                        if (widget.safeInfo.scrap == 0) {
-                          //스크랩 X인 경우
-                          setState(() {
-                            widget.safeInfo.scrap = 1;
-                            _safeInfoService.updateSafeInfoScrap(
-                                widget.safeInfo.id ?? 0,
-                                widget.safeInfo.scrap ?? 0);
-                          });
-                        } else if (widget.safeInfo.scrap == 1) {
-                          //스크랩 한 경우
-                          setState(() {
-                            widget.safeInfo.scrap = 0;
-                            _safeInfoService.updateSafeInfoScrap(
-                                widget.safeInfo.id ?? 0,
-                                widget.safeInfo.scrap ?? 0);
-                          });
-                        }
-                        await _safeInfoService.updateSafeInfoScrap(
-                            widget.safeInfo.id ?? 0,
-                            widget.safeInfo.scrap ?? 0);
-                      },
-                    )),
+                  title: Text(
+                    widget.safeInfo.title ?? '',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                  ),
+                  trailing: IconButton(
+                    icon: widget.safeInfo.scrap == 0
+                        ? Icon(CupertinoIcons.bookmark)
+                        : Icon(
+                            CupertinoIcons.bookmark_fill,
+                            color: Colors.yellow,
+                          ),
+                    onPressed: () async {
+                      if (widget.safeInfo.scrap == 0) {
+                        //스크랩 X인 경우
+                        setState(() {
+                          widget.safeInfo.scrap = 1;
+                        });
+                      } else if (widget.safeInfo.scrap == 1) {
+                        //스크랩 한 경우
+                        setState(() {
+                          widget.safeInfo.scrap = 0;
+                        });
+                      }
+                      await _safeInfoService.updateSafeInfoScrap(
+                          widget.safeInfo.id ?? 0, widget.safeInfo.scrap ?? 0);
+                    },
+                  ),
+                ),
                 const SizedBox(
                   height: 20,
                 ),
