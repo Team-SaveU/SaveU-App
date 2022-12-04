@@ -86,10 +86,13 @@ class _MyPageState extends State<MyPage> {
               child: DefaultTabController(
                 length: 2, //탭 수
                 child: Scaffold(
-                  appBar: TabBar(tabs: <Widget>[
-                    Tab(text: '내 스크랩'),
-                    Tab(text: '내 질문'),
-                  ]),
+                  appBar: TabBar(
+                      labelColor: Colors.black,
+                      indicatorColor: Colors.blue,
+                      tabs: <Widget>[
+                        Tab(text: '내 스크랩'),
+                        Tab(text: '내 질문'),
+                      ]),
                   body: TabBarView(
                     children: <Widget>[
                       MyScrapPage(),
