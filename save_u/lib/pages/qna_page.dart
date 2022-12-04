@@ -5,6 +5,8 @@ import 'package:save_u/pages/create_question_page.dart';
 import 'package:save_u/sevices/auth_service.dart';
 import 'package:save_u/sevices/question_service.dart';
 
+import 'qna_details_page.dart';
+
 class QnAPage extends StatefulWidget {
   const QnAPage({super.key});
 
@@ -46,7 +48,7 @@ class _QnAPageState extends State<QnAPage> {
                     /// 질문 리스트
                     Expanded(
                       child: FutureBuilder<QuerySnapshot>(
-                          future: questionService.read(user.uid),
+                          future: questionService.readAll(),
                           builder: (context, snapshot) {
                             final documents =
                                 snapshot.data?.docs ?? []; // 문서들 가져오기
@@ -58,14 +60,37 @@ class _QnAPageState extends State<QnAPage> {
                               itemBuilder: (context, index) {
                                 final doc = documents[index];
                                 String title = doc.get('title');
-                                return ListTile(
-                                  title: Text(
-                                    title,
-                                    style: TextStyle(
-                                      fontSize: 24,
+                                String content = doc.get('content');
+                                return Card(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: ListTile(
+                                      onTap: () async {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                QnADetailsPage(
+                                              questionId: doc.get('id'),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      title: Text(
+                                        "Q. $title",
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                        ),
+                                      ),
+                                      subtitle: Padding(
+                                        padding: const EdgeInsets.all(6.0),
+                                        child: Text(
+                                          content,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                  onTap: () => {},
                                 );
                               },
                             );

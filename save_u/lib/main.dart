@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:save_u/pages/main_page.dart';
+import 'package:save_u/pages/no_user_page.dart';
 import 'package:save_u/pages/qna_page.dart';
 import 'package:save_u/pages/safe_map_page.dart';
 import 'package:save_u/sevices/auth_service.dart';
@@ -46,12 +47,13 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final user = context.read<AuthService>().currentUser();
     return Scaffold(
       body: IndexedStack(
         index: _selectedIndex,
         children: [
           MainPage(),
-          QnAPage(),
+          user == null ? NoUserPage() : QnAPage(),
           SafeMapPage(),
           MyPage(),
         ], //children

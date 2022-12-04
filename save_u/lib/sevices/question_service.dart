@@ -11,6 +11,11 @@ class QuestionService extends ChangeNotifier {
     return questionCollection.where('uid', isEqualTo: uid).get();
   }
 
+  Future<QuerySnapshot> readAll() async {
+    // 모든 questionList 가져오기
+    return questionCollection.get();
+  }
+
   void create(String title, String content, String uid) async {
     //uuid 생성
     var uuid = Uuid();
