@@ -6,6 +6,11 @@ import 'package:uuid/uuid.dart';
 class QuestionService extends ChangeNotifier {
   final questionCollection = FirebaseFirestore.instance.collection('question');
 
+  Future<DocumentSnapshot> readOne(String docId) async {
+    // 선택한 question
+    return questionCollection.doc(docId).get();
+  }
+
   Future<QuerySnapshot> read(String uid) async {
     // 내 questionList 가져오기
     return questionCollection.where('uid', isEqualTo: uid).get();
