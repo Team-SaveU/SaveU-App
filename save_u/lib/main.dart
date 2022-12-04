@@ -2,9 +2,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:save_u/pages/main_page.dart';
+import 'package:save_u/pages/qna_page.dart';
 import 'package:save_u/pages/safe_map_page.dart';
 import 'package:save_u/sevices/auth_service.dart';
 import 'package:save_u/pages/my_page.dart';
+import 'package:save_u/sevices/question_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // main 함수에서 async 사용하기 위함
@@ -13,6 +15,7 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => AuthService()),
+        ChangeNotifierProvider(create: (context) => QuestionService()),
       ],
       child: const MyApp(),
     ),
@@ -48,7 +51,7 @@ class _HomePageState extends State<HomePage> {
         index: _selectedIndex,
         children: [
           MainPage(),
-          MainPage(),
+          QnAPage(),
           SafeMapPage(),
           MyPage(),
         ], //children

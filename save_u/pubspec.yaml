@@ -46,6 +46,8 @@ dependencies:
   http: ^0.13.5
   json_serializable: ^6.5.4
   geolocator: ^9.0.2
+  intl: ^0.17.0
+  uuid: ^3.0.7
 
 dev_dependencies:
   flutter_test:
@@ -71,14 +73,8 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/safe_infos.json
-    - assets/sub_categories.json
-    - assets/icons/CircleIcon1.png
-    - assets/icons/CircleIcon2.png
-    - assets/icons/CircleIcon3.png
-    - assets/icons/CircleIcon4.png
-    - assets/icons/CircleIcon5.png
-    - assets/icons/CircleIcon6.png
+    - assets/
+    - assets/icons/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
