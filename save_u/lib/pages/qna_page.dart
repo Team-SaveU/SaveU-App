@@ -71,7 +71,7 @@ class _QnAPageState extends State<QnAPage> {
                                           MaterialPageRoute(
                                             builder: (context) =>
                                                 QnADetailsPage(
-                                              questionId: doc.get('id'),
+                                              questionId: doc.id,
                                             ),
                                           ),
                                         );
