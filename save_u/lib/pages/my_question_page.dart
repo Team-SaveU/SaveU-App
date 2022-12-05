@@ -36,7 +36,7 @@ class _MyQuestionPageState extends State<MyQuestionPage> {
                             final documents =
                                 snapshot.data?.docs ?? []; // 문서들 가져오기
                             if (documents.isEmpty) {
-                              return Center(child: Text("질문이 없습니다."));
+                              return Center(child: Text("작성한 질문이 없습니다."));
                             }
                             return ListView.builder(
                               itemCount: documents.length,

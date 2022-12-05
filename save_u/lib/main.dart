@@ -7,6 +7,7 @@ import 'package:save_u/pages/qna_page.dart';
 import 'package:save_u/pages/safe_map_page.dart';
 import 'package:save_u/sevices/auth_service.dart';
 import 'package:save_u/pages/my_page.dart';
+import 'package:save_u/sevices/comment_service.dart';
 import 'package:save_u/sevices/question_service.dart';
 
 void main() async {
@@ -17,6 +18,7 @@ void main() async {
       providers: [
         ChangeNotifierProvider(create: (context) => AuthService()),
         ChangeNotifierProvider(create: (context) => QuestionService()),
+        ChangeNotifierProvider(create: (context) => CommentService()),
       ],
       child: const MyApp(),
     ),
