@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:save_u/pages/my_question_page.dart';
+import 'package:save_u/pages/no_user_page.dart';
 
 import '../sevices/auth_service.dart';
 import 'login_page.dart';
@@ -31,7 +33,7 @@ class _MyPageState extends State<MyPage> {
                   Text(
                     user == null ? "로그인이 필요합니다." : "${user.email}님",
                     style: TextStyle(
-                      fontSize: 24,
+                      fontSize: 20,
                     ),
                   ),
                   IconButton(
@@ -96,9 +98,7 @@ class _MyPageState extends State<MyPage> {
                   body: TabBarView(
                     children: <Widget>[
                       MyScrapPage(),
-                      Container(
-                        color: Colors.lime,
-                      ),
+                      user == null ? NoUserPage() : MyQuestionPage(),
                     ],
                   ),
                 ),

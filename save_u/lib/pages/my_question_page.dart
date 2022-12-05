@@ -1,20 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:save_u/pages/create_question_page.dart';
-import 'package:save_u/sevices/auth_service.dart';
-import 'package:save_u/sevices/question_service.dart';
+import 'package:save_u/pages/qna_details_page.dart';
 
-import 'qna_details_page.dart';
+import '../sevices/auth_service.dart';
+import '../sevices/question_service.dart';
+import 'create_question_page.dart';
 
-class QnAPage extends StatefulWidget {
-  const QnAPage({super.key});
+class MyQuestionPage extends StatefulWidget {
+  const MyQuestionPage({super.key});
 
   @override
-  State<QnAPage> createState() => _QnAPageState();
+  State<MyQuestionPage> createState() => _MyQuestionPageState();
 }
 
-class _QnAPageState extends State<QnAPage> {
+class _MyQuestionPageState extends State<MyQuestionPage> {
   @override
   Widget build(BuildContext context) {
     return Consumer<QuestionService>(
@@ -23,24 +23,7 @@ class _QnAPageState extends State<QnAPage> {
         final user = authService.currentUser()!;
 
         return Scaffold(
-          appBar: AppBar(
-            title: Text("Q&A"),
-          ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () async {
-              Map<String, String>? question = await Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => CreateQuestionPage()),
-              );
-              if (question != null) {
-                setState(() {
-                  questionService.create(
-                      question['title']!, question['content']!, user.uid);
-                });
-              }
-            },
-            child: const Icon(Icons.add),
-          ),
+          appBar: null,
           body: user.email == null
               ? Text("로그인 후 이용 가능합니다.")
               : Column(
@@ -48,12 +31,12 @@ class _QnAPageState extends State<QnAPage> {
                     /// 질문 리스트
                     Expanded(
                       child: FutureBuilder<QuerySnapshot>(
-                          future: questionService.readAll(),
+                          future: questionService.read(user.uid),
                           builder: (context, snapshot) {
                             final documents =
                                 snapshot.data?.docs ?? []; // 문서들 가져오기
                             if (documents.isEmpty) {
-                              return Center(child: Text("질문이 없습니다."));
+                              return Center(child: Text("작성한 질문이 없습니다."));
                             }
                             return ListView.builder(
                               itemCount: documents.length,
@@ -63,7 +46,7 @@ class _QnAPageState extends State<QnAPage> {
                                 String content = doc.get('content');
                                 return Card(
                                   child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
+                                    padding: const EdgeInsets.all(4.0),
                                     child: ListTile(
                                       onTap: () async {
                                         Navigator.push(
@@ -83,7 +66,8 @@ class _QnAPageState extends State<QnAPage> {
                                         ),
                                       ),
                                       subtitle: Padding(
-                                        padding: const EdgeInsets.all(6.0),
+                                        padding: const EdgeInsets.fromLTRB(
+                                            8.0, 6.0, 0.0, 0.0),
                                         child: Text(
                                           content,
                                           overflow: TextOverflow.ellipsis,
