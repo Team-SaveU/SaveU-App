@@ -7,7 +7,6 @@ class QuestionService extends ChangeNotifier {
   final questionCollection = FirebaseFirestore.instance.collection('question');
 
   Future<DocumentSnapshot> readOne(String docId) async {
-    print('$docId');
     // 선택한 question
     return questionCollection.doc(docId).get();
   }
