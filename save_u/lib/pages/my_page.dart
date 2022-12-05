@@ -33,7 +33,7 @@ class _MyPageState extends State<MyPage> {
                   Text(
                     user == null ? "로그인이 필요합니다." : "${user.email}님",
                     style: TextStyle(
-                      fontSize: 24,
+                      fontSize: 20,
                     ),
                   ),
                   IconButton(

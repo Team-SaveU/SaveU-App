@@ -50,7 +50,7 @@ class _QnADetailsPageState extends State<QnADetailsPage> {
                               ),
                             ),
                           ),
-                          title: Text('익명'),
+                          title: Text('익명 ${doc['uid'].substring(0, 1)}'),
                           subtitle: Text("${doc['date']}"),
                         ),
                         // 제목
@@ -81,8 +81,8 @@ class _QnADetailsPageState extends State<QnADetailsPage> {
                         // 댓글 목록
                         Column(
                           children: [
-                            Container(
-                              height: 100,
+                            SizedBox(
+                              height: 500,
                               child: FutureBuilder<QuerySnapshot>(
                                 future: commentService.read(widget.questionId),
                                 builder: (context, snapshot) {
@@ -92,7 +92,8 @@ class _QnADetailsPageState extends State<QnADetailsPage> {
                                     return Center(child: Text("아직 답변이 없습니다."));
                                   }
                                   return ListView.builder(
-                                    scrollDirection: Axis.horizontal,
+                                    shrinkWrap: true,
+                                    //scrollDirection: Axis.horizontal,
                                     itemCount: documents.length,
                                     itemBuilder: (context, index) {
                                       final cdoc = documents[index];
@@ -103,7 +104,7 @@ class _QnADetailsPageState extends State<QnADetailsPage> {
                                           padding: const EdgeInsets.all(4.0),
                                           child: ListTile(
                                             title: Text(
-                                              uid,
+                                              "익명 ${uid.substring(0, 1)}",
                                               style: TextStyle(
                                                 fontSize: 15,
                                               ),
@@ -156,6 +157,7 @@ class _QnADetailsPageState extends State<QnADetailsPage> {
                             commentService.create(widget.questionId,
                                 commentController.text, user.uid);
                           }
+                          setState(() {});
                         },
                       ),
                     ],
