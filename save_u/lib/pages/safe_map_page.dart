@@ -19,7 +19,9 @@ class _SafeMapPageState extends State<SafeMapPage> {
   //Completer() => Future<> 반환
 
   Set<Marker> _markers = Set();
-  Set<Marker> _markers1 = Set(); //지진 해일 대피소
+  Set<Marker> _markers_earthquake = Set();
+  Set<Marker> _markers_AED = Set();
+  Set<Marker> _markers_hospital = Set();
   @override
   void initState() {
     super.initState();
@@ -29,11 +31,32 @@ class _SafeMapPageState extends State<SafeMapPage> {
       position: LatLng(37.589667551557, 127.019849627),
       infoWindow: InfoWindow(title: 'My Position', snippet: 'where am I?'),
     ));
-    _markers1.add(Marker(
+    _markers_earthquake.add(Marker(
       markerId: MarkerId('Korea Univ.'),
       position: LatLng(37.588556165888, 127.01998189277),
-      infoWindow: InfoWindow(title: 'Korea Univ.', snippet: '고려대'),
+      infoWindow: InfoWindow(title: 'Korea Univ.'),
     ));
+    _markers_hospital.add(Marker(
+      markerId: MarkerId('hospital1'),
+      position: LatLng(37.596838, 127.035598),
+      infoWindow: InfoWindow(title: '성북 우리 아이들 병원'),
+    ));
+    _markers_hospital.add(Marker(
+      markerId: MarkerId('hospital2'),
+      position: LatLng(127.026508, 37.587191),
+      infoWindow: InfoWindow(title: '고려대 부속 안암 병원'),
+    ));
+    /*_markers_hospital.add(Marker(
+      markerId: MarkerId('hospital2'),
+      position: LatLng(127.0073736, 37.5892371),
+      infoWindow: InfoWindow(title: '리누스 병원'),
+    ));
+    
+    _markers_hospital.add(Marker(
+      markerId: MarkerId('hospital4'),
+      position: LatLng(127.0356232, 37.5967276),
+      infoWindow: InfoWindow(title: '성북 중앙 병원'),
+    ));*/
   }
 
   /*_setInitialPosition() async {
@@ -45,17 +68,11 @@ class _SafeMapPageState extends State<SafeMapPage> {
 
   CameraPosition _initialCameraPosition = CameraPosition(
     target: LatLng(37.589667551557, 127.019849627),
-    zoom: 20,
+    zoom: 15,
   );
 
   void _onMapCreated(GoogleMapController controller) {
     _controller.complete(controller); //_controller를 이제 사용할 수 있다.
-  }
-
-  void _changeMarkers() {
-    setState(() {
-      _markers = _markers1;
-    });
   }
 
   void _searchPlaces(
@@ -127,21 +144,39 @@ class _SafeMapPageState extends State<SafeMapPage> {
               child: Row(
                 children: <Widget>[
                   FloatingActionButton.extended(
-                    onPressed: _changeMarkers,
+                    onPressed: () {
+                      setState(() {
+                        _markers = _markers_earthquake;
+                      });
+                    },
                     label: Text("지진해일대피장소"),
                     icon: Icon(Icons.map),
                     elevation: 8,
                     backgroundColor: Colors.blue[400],
                   ),
-                  SizedBox(width: 5),
+                  SizedBox(width: 3),
                   FloatingActionButton.extended(
                     onPressed: () {
-                      _searchPlaces("police", 37.589667551557, 127.019849627);
+                      setState(() {
+                        _markers = _markers_AED;
+                      });
                     },
-                    label: Text("경찰서"),
+                    label: Text("AED"),
                     icon: Icon(Icons.map),
                     elevation: 8,
                     backgroundColor: Colors.green[400],
+                  ),
+                  SizedBox(width: 3),
+                  FloatingActionButton.extended(
+                    onPressed: () {
+                      setState(() {
+                        _markers = _markers_hospital;
+                      });
+                    },
+                    label: Text("응급실"),
+                    icon: Icon(Icons.map),
+                    elevation: 8,
+                    backgroundColor: Colors.red[400],
                   ),
                 ],
               ))
