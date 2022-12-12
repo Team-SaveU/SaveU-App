@@ -3,7 +3,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:save_u/constants.dart';
 import 'package:http/http.dart' as http;
 
 class SafeMapPage extends StatefulWidget {
@@ -24,13 +23,43 @@ class _SafeMapPageState extends State<SafeMapPage> {
   @override
   void initState() {
     super.initState();
-    //_setInitialPosition();
-    _markers.add(Marker(
-      markerId: MarkerId('myInitialPosition'),
-      position: LatLng(37.589667551557, 127.019849627),
-      infoWindow: InfoWindow(title: 'My Position', snippet: 'where am I?'),
-    ));
+
     //성북구 지진옥외대피장소
+    _markers_earthquake.add(Marker(
+      markerId: MarkerId('earthquake1'),
+      position: LatLng(37.59744596159632, 127.0251980497349),
+      infoWindow: InfoWindow(title: '개운산 공원'),
+    ));
+
+    _markers_earthquake.add(Marker(
+      markerId: MarkerId('earthquake2'),
+      position: LatLng(37.59564608261264, 127.01176220374178),
+      infoWindow: InfoWindow(title: '우촌초등학교 운동장'),
+    ));
+
+    _markers_earthquake.add(Marker(
+      markerId: MarkerId('earthquake3'),
+      position: LatLng(37.59418475797521, 127.0233229605466),
+      infoWindow: InfoWindow(title: '성신여자중학교 운동장'),
+    ));
+
+    _markers_earthquake.add(Marker(
+      markerId: MarkerId('earthquake4'),
+      position: LatLng(37.59791548559432, 127.01992133364298),
+      infoWindow: InfoWindow(title: '고명중학교 운동장'),
+    ));
+
+    _markers_earthquake.add(Marker(
+      markerId: MarkerId('earthquake5'),
+      position: LatLng(37.6018151620627, 127.02788905780827),
+      infoWindow: InfoWindow(title: '개운초등학교 운동장'),
+    ));
+
+    _markers_earthquake.add(Marker(
+      markerId: MarkerId('earthquake6'),
+      position: LatLng(37.59492326387658, 127.02482919145105),
+      infoWindow: InfoWindow(title: '개운중학교 운동장'),
+    ));
 
     //성북구 AED 위치
     _markers_AED.add(Marker(
@@ -223,7 +252,7 @@ class _SafeMapPageState extends State<SafeMapPage> {
                         _markers = _markers_earthquake;
                       });
                     },
-                    label: Text("지진해일대피장소"),
+                    label: Text("지진옥외대피장소"),
                     icon: Icon(Icons.map),
                     elevation: 8,
                     backgroundColor: Colors.blue[400],

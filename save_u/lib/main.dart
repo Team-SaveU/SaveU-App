@@ -1,4 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:save_u/pages/main_page.dart';
@@ -10,9 +12,38 @@ import 'package:save_u/pages/my_page.dart';
 import 'package:save_u/sevices/comment_service.dart';
 import 'package:save_u/sevices/question_service.dart';
 
+const AndroidNotificationChannel channel = AndroidNotificationChannel(
+  'high_importance_channel',
+  "High Importance Notifications",
+  description: "This channel is used for important notifications",
+  importance: Importance.high,
+  playSound: true,
+);
+
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  print('a background message just showed up  : ${message.messageId}');
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // main 함수에서 async 사용하기 위함
   await Firebase.initializeApp(); // firebase 앱 시작
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+  await flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>()
+      ?.createNotificationChannel(channel);
+
+  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+    alert: true,
+    badge: true,
+    sound: true,
+  );
+
   runApp(
     MultiProvider(
       providers: [
@@ -45,7 +76,70 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  int _counter = 0;
   int _selectedIndex = 0; //변수명 앞에 언더바 붙이면 해당 클래스 내에서만 사용 가능하다는것
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+
+  @override
+  void initState() {
+    super.initState();
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+      if (notification != null && android != null) {
+        flutterLocalNotificationsPlugin.show(
+            notification.hashCode,
+            notification.title,
+            notification.body,
+            NotificationDetails(
+              android: AndroidNotificationDetails(
+                channel.id,
+                channel.name,
+                channelDescription: channel.description,
+                color: Colors.blue,
+                playSound: true,
+              ),
+            ));
+      }
+    });
+
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      print('a new onMessageOpendeApp event was published!');
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+      if (notification != null && android != null) {
+        showDialog(
+            context: context,
+            builder: (_) {
+              return AlertDialog(
+                title: Text(notification.title!),
+                content: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [Text(notification.body!)],
+                  ),
+                ),
+              );
+            });
+      }
+    });
+  }
+
+  void showNotification() {
+    setState(() {
+      _counter++;
+    });
+    flutterLocalNotificationsPlugin.show(
+        0,
+        "Testing $_counter",
+        "How you doin ?",
+        NotificationDetails(
+            android: AndroidNotificationDetails(channel.id, channel.name,
+                importance: Importance.high,
+                color: Colors.blue,
+                playSound: true,
+                icon: '@mipmap/ic_launcher')));
+  }
 
   @override
   Widget build(BuildContext context) {

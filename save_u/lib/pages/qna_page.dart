@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:save_u/pages/create_question_page.dart';
 import 'package:save_u/sevices/auth_service.dart';
+import 'package:save_u/sevices/comment_service.dart';
 import 'package:save_u/sevices/question_service.dart';
 
 import 'qna_details_page.dart';
@@ -17,8 +19,8 @@ class QnAPage extends StatefulWidget {
 class _QnAPageState extends State<QnAPage> {
   @override
   Widget build(BuildContext context) {
-    return Consumer<QuestionService>(
-      builder: (context, questionService, child) {
+    return Consumer2<QuestionService, CommentService>(
+      builder: (context, questionService, commentService, child) {
         final authService = context.read<AuthService>();
         final user = authService.currentUser()!;
 
@@ -62,35 +64,62 @@ class _QnAPageState extends State<QnAPage> {
                                 String title = doc.get('title');
                                 String content = doc.get('content');
                                 return Card(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: ListTile(
-                                      onTap: () async {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                QnADetailsPage(
-                                              questionId: doc.id,
+                                  child: FutureBuilder<QuerySnapshot>(
+                                      future: commentService.read(doc.id),
+                                      builder: (context, snapshot2) {
+                                        final docs_comment =
+                                            snapshot2.data?.docs ?? [];
+                                        return Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: ListTile(
+                                            onTap: () async {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      QnADetailsPage(
+                                                    questionId: doc.id,
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                            title: Text(
+                                              "Q. $title",
+                                              style: TextStyle(
+                                                fontSize: 20,
+                                              ),
+                                            ),
+                                            subtitle: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(6.0),
+                                              child: Text(
+                                                content,
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                            ),
+                                            trailing: RichText(
+                                              text: TextSpan(
+                                                children: [
+                                                  WidgetSpan(
+                                                    child: Icon(
+                                                        CupertinoIcons
+                                                            .chat_bubble_text_fill,
+                                                        size: 16),
+                                                  ),
+                                                  TextSpan(
+                                                    style: TextStyle(
+                                                      fontSize: 14.0,
+                                                      color: Colors.black,
+                                                    ),
+                                                    text:
+                                                        " ${docs_comment.length}",
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ),
                                         );
-                                      },
-                                      title: Text(
-                                        "Q. $title",
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                        ),
-                                      ),
-                                      subtitle: Padding(
-                                        padding: const EdgeInsets.all(6.0),
-                                        child: Text(
-                                          content,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
+                                      }),
                                 );
                               },
                             );
