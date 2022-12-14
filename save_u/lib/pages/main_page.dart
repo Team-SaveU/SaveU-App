@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:save_u/pages/safe_info_detail_page.dart';
 import 'package:save_u/pages/sub_categories_page.dart';
 
+import '../models/safe_info.dart';
+import '../sevices/safe_info_service.dart';
+
 class MainPage extends StatelessWidget {
-  // const MainPage({required this.userEmail, super.key});
-  // final String userEmail;
+  final _safeInfoService = SafeInfoService();
+  late SafeInfo _safeInfo;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,22 +22,29 @@ class MainPage extends StatelessWidget {
                   child: Text('오늘의 안전상식')),
               Container(
                   //오늘의 안전상식 본문
-                  padding: EdgeInsets.all(10),
+                  padding: EdgeInsets.fromLTRB(60, 10, 60, 10),
                   color: Color.fromRGBO(196, 223, 246, 300),
                   child: Column(
                     children: [
                       Container(
                         padding: EdgeInsets.only(bottom: 10),
-                        child: Text('Q. 차량 급발진, 어떻게 대처해야 할 지 막막하신가요?'),
+                        child: Text('태풍이 올 때, 대처 방법을 알아볼까요 ?'),
                       ),
                       Container(
                         padding: EdgeInsets.zero,
-                        child: Text(
-                            '누구에게나 일어날 수 있는 차량 급발진 상황,어떻게 현명하게 대처할 수 있을까요?'),
+                        child: Text('집에 있을 때 태풍 대비'),
                       ),
                       ElevatedButton(
-                        onPressed: () {
-                          print('당장 알아보기 버튼 클릭함');
+                        onPressed: () async {
+                          _safeInfo = _safeInfoService.readSafeInfoById(12);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SafeInfoDetailPage(
+                                safeInfo: _safeInfo,
+                              ),
+                            ),
+                          );
                         },
                         child: Text('당장 알아보러 가기'),
                       ),
@@ -51,7 +63,6 @@ class MainPage extends StatelessWidget {
                         borderRadius: BorderRadius.circular(30.0),
                       ),
                     ),
-                    //child: Text('궁금한 정보가 있나요? 키워드 검색으로 쉽게 찾아보세요'),
                     label: Text(
                       '궁금한 정보가 있나요? 키워드 검색으로 쉽게 찾아보세요',
                       style: TextStyle(
